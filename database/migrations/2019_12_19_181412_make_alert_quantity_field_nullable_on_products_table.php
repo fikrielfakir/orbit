@@ -12,8 +12,12 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement('ALTER TABLE products MODIFY COLUMN alert_quantity DECIMAL(22, 4) DEFAULT NULL');
-    }
+        $driver = Schema::getConnection()->getDriverName();
+        if ($driver === 'mysql') {
+
+            DB::statement('ALTER TABLE products MODIFY COLUMN alert_quantity DECIMAL(22, 4) DEFAULT NULL');
+        }
+        }
 
     /**
      * Reverse the migrations.

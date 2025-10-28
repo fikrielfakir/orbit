@@ -14,7 +14,10 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement('ALTER TABLE users MODIFY COLUMN surname CHAR(10)');
+        $driver = Schema::getConnection()->getDriverName();
+        if ($driver === 'mysql') {
+            DB::statement('ALTER TABLE users MODIFY COLUMN surname CHAR(10)');
+        }
 
         Schema::table('users', function (Blueprint $table) {
             $table->char('contact_no', 15)->nullable()->after('language');

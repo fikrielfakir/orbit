@@ -12,8 +12,12 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement("ALTER TABLE transactions MODIFY COLUMN payment_status ENUM('paid', 'due', 'partial')");
-    }
+        $driver = Schema::getConnection()->getDriverName();
+        if ($driver === 'mysql') {
+
+            DB::statement("ALTER TABLE transactions MODIFY COLUMN payment_status ENUM('paid', 'due', 'partial')");
+        }
+        }
 
     /**
      * Reverse the migrations.

@@ -12,9 +12,13 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement("ALTER TABLE products MODIFY COLUMN type ENUM('single','variable', 'modifier')");
-        DB::statement('ALTER TABLE products MODIFY COLUMN unit_id INT(11) UNSIGNED DEFAULT NULL');
-    }
+        $driver = Schema::getConnection()->getDriverName();
+        if ($driver === 'mysql') {
+
+            DB::statement("ALTER TABLE products MODIFY COLUMN type ENUM('single','variable', 'modifier')");
+            DB::statement('ALTER TABLE products MODIFY COLUMN unit_id INT(11) UNSIGNED DEFAULT NULL');
+        }
+        }
 
     /**
      * Reverse the migrations.

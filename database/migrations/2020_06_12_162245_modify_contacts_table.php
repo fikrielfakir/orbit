@@ -14,6 +14,10 @@ return new class extends Migration
      */
     public function up()
     {
+        $driver = Schema::getConnection()->getDriverName();
+        if ($driver === 'mysql') {
+        }
+
         Schema::table('contacts', function (Blueprint $table) {
             $table->string('prefix')->after('name')->nullable();
             $table->string('first_name')->after('prefix')->nullable();

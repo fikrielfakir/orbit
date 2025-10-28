@@ -14,6 +14,10 @@ return new class extends Migration
      */
     public function up()
     {
+        $driver = Schema::getConnection()->getDriverName();
+        if ($driver === 'mysql') {
+        }
+
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('allow_login')->default(1)->after('business_id');
         });

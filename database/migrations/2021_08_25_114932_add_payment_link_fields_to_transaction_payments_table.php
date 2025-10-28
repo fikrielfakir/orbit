@@ -14,7 +14,10 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement('ALTER TABLE transaction_payments MODIFY COLUMN created_by INT(11) DEFAULT NULL');
+        $driver = Schema::getConnection()->getDriverName();
+        if ($driver === 'mysql') {
+            DB::statement('ALTER TABLE transaction_payments MODIFY COLUMN created_by INT(11) DEFAULT NULL');
+        }
 
         Schema::table('transaction_payments', function (Blueprint $table) {
             $table->boolean('paid_through_link')->default(0)->after('created_by');

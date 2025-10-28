@@ -14,8 +14,16 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement("ALTER TABLE transactions MODIFY COLUMN type ENUM('purchase','sell', 'expense')");
-        DB::statement('ALTER TABLE transactions MODIFY COLUMN contact_id INT(11) UNSIGNED DEFAULT NULL');
+        $driver = Schema::getConnection()->getDriverName();
+
+        if ($driver === 'mysql') {
+            DB::statement("ALTER TABLE transactions MODIFY COLUMN type ENUM('purchase','sell', 'expense')");
+            DB::statement('ALTER TABLE transactions MODIFY COLUMN contact_id INT(11) UNSIGNED DEFAULT NULL');
+        } elseif ($driver === 'pgsql') {
+            DB::statement("ALTER TABLE transactions DROP CONSTRAINT IF EXISTS transactions_type_check");
+            DB::statement("ALTER TABLE transactions ADD CONSTRAINT transactions_type_check CHECK (type IN ('purchase', 'sell', 'expense'))");
+            DB::statement("ALTER TABLE transactions ALTER COLUMN contact_id DROP NOT NULL");
+        }
 
         Schema::table('transactions', function (Blueprint $table) {
             $table->integer('expense_category_id')->nullable()->unsigned()->after('final_total');

@@ -14,6 +14,10 @@ return new class extends Migration
      */
     public function up()
     {
+        $driver = Schema::getConnection()->getDriverName();
+        if ($driver === 'mysql') {
+        }
+
         Schema::table('variations', function (Blueprint $table) {
             $table->text('combo_variations')->nullable()->comment('Contains the combo variation details');
         });

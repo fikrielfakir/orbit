@@ -12,8 +12,12 @@ return new class extends Migration
      */
     public function up()
     {
-        // DB::statement("ALTER TABLE system MODIFY COLUMN value TEXT DEFAULT NULL");
-    }
+        $driver = Schema::getConnection()->getDriverName();
+        if ($driver === 'mysql') {
+
+            // DB::statement("ALTER TABLE system MODIFY COLUMN value TEXT DEFAULT NULL");
+        }
+        }
 
     /**
      * Reverse the migrations.

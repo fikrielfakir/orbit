@@ -12,6 +12,8 @@ return new class extends Migration
      */
     public function up()
     {
+        $driver = Schema::getConnection()->getDriverName();
+        if ($driver === 'mysql') {
         DB::statement('ALTER TABLE stock_adjustment_lines CHANGE COLUMN purchase_line_id removed_purchase_line INT(11) DEFAULT NULL');
     }
 

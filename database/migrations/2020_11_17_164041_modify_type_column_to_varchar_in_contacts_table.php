@@ -12,12 +12,16 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement('ALTER TABLE contacts MODIFY COLUMN `type` VARCHAR(191) NOT NULL');
+        $driver = Schema::getConnection()->getDriverName();
+        if ($driver === 'mysql') {
 
-        Contact::where('type', '=', '')
-                 ->orWhereNull('type')
-                ->update(['type' => 'lead']);
-    }
+            DB::statement('ALTER TABLE contacts MODIFY COLUMN `type` VARCHAR(191) NOT NULL');
+
+            Contact::where('type', '=', '')
+                     ->orWhereNull('type')
+                    ->update(['type' => 'lead']);
+        }
+        }
 
     /**
      * Reverse the migrations.

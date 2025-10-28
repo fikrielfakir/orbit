@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement('ALTER TABLE transactions MODIFY COLUMN exchange_rate DECIMAL(20,3) NOT NULL DEFAULT 0');
-    }
+        $driver = Schema::getConnection()->getDriverName();
+        if ($driver === 'mysql') {
+
+            DB::statement('ALTER TABLE transactions MODIFY COLUMN exchange_rate DECIMAL(20,3) NOT NULL DEFAULT 0');
+        }
+        }
 
     /**
      * Reverse the migrations.

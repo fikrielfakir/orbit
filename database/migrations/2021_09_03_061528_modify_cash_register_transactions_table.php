@@ -12,8 +12,12 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement('ALTER TABLE cash_register_transactions MODIFY COLUMN transaction_type VARCHAR(191);');
-    }
+        $driver = Schema::getConnection()->getDriverName();
+        if ($driver === 'mysql') {
+
+            DB::statement('ALTER TABLE cash_register_transactions MODIFY COLUMN transaction_type VARCHAR(191);');
+        }
+        }
 
     /**
      * Reverse the migrations.

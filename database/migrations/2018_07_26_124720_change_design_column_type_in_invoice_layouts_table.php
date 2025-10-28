@@ -12,8 +12,12 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement("ALTER TABLE invoice_layouts MODIFY COLUMN design VARCHAR(190) DEFAULT 'classic'");
-    }
+        $driver = Schema::getConnection()->getDriverName();
+        if ($driver === 'mysql') {
+
+            DB::statement("ALTER TABLE invoice_layouts MODIFY COLUMN design VARCHAR(190) DEFAULT 'classic'");
+        }
+        }
 
     /**
      * Reverse the migrations.

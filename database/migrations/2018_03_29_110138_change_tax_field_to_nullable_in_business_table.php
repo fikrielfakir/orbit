@@ -14,9 +14,13 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement('ALTER TABLE business MODIFY COLUMN tax_number_1 VARCHAR(100)');
-        DB::statement('ALTER TABLE business MODIFY COLUMN tax_label_1 VARCHAR(10)');
-    }
+        $driver = Schema::getConnection()->getDriverName();
+        if ($driver === 'mysql') {
+
+            DB::statement('ALTER TABLE business MODIFY COLUMN tax_number_1 VARCHAR(100)');
+            DB::statement('ALTER TABLE business MODIFY COLUMN tax_label_1 VARCHAR(10)');
+        }
+        }
 
     /**
      * Reverse the migrations.
